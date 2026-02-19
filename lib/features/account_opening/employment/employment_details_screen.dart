@@ -6,7 +6,8 @@ class EmploymentDetailsScreen extends StatefulWidget {
   const EmploymentDetailsScreen({super.key});
 
   @override
-  State<EmploymentDetailsScreen> createState() => _EmploymentDetailsScreenState();
+  State<EmploymentDetailsScreen> createState() =>
+      _EmploymentDetailsScreenState();
 }
 
 class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
@@ -24,7 +25,8 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
               value: selectedEmploymentType,
               hint: const Text('Select Employment Type'),
               items: ['Salaried', 'Self-Employed', 'Business']
-                  .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                  .map((type) =>
+                      DropdownMenuItem(value: type, child: Text(type)))
                   .toList(),
               onChanged: (value) {
                 setState(() {
@@ -35,11 +37,11 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                return;
-                final apiValue = EmploymentTypeMapper.toApiValue(selectedEmploymentType ?? '');
+                final apiValue = EmploymentTypeMapper.toApiValue(
+                    selectedEmploymentType ?? '');
                 print('Sending to API: $apiValue');
               },
-              child: const Text('Submit'),
+              child: const Text(''),
             ),
           ],
         ),
