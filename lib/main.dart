@@ -21,10 +21,11 @@ class _MyAppState extends State<MyApp> {
     getBatteryLevel();
   }
 
-  Future<int> getBatteryLevel() async {
+  getBatteryLevel() async {
     final int result = await const MethodChannel('com.example.app')
         .invokeMethod('getBatteryLevel');
-    return result;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("$result")));
   }
 
   @override
