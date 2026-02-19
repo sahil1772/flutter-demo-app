@@ -35,6 +35,7 @@ class _EmploymentDetailsScreenState extends State<EmploymentDetailsScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                return;
                 final apiValue = EmploymentTypeMapper.toApiValue(selectedEmploymentType ?? '');
                 print('Sending to API: $apiValue');
               },
