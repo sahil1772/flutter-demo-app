@@ -11,7 +11,7 @@ class AccountOpeningScreen extends StatefulWidget {
 }
 
 class _AccountOpeningScreenState extends State<AccountOpeningScreen> {
-  bool isLoading = true;
+  bool isLoading = false;
 
   @override
   void initState() {
