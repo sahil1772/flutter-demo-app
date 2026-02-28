@@ -20,32 +20,30 @@ class _AccountOpeningScreenState extends State<AccountOpeningScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const SizedBox()
-        : Scaffold(
-            appBar: AppBar(title: const Text('Account Opening')),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const PanEntryForm()),
-                    ),
-                    child: const Text('Enter PAN'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const EmploymentDetailsScreen()),
-                    ),
-                    child: const Text('Employment Details'),
-                  ),
-                ],
+    return Scaffold(
+        appBar: AppBar(title: const Text('Account Opening')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PanEntryForm()),
+                ),
+                child: const Text('Enter PAN'),
               ),
-            ),
-          );
+              ElevatedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const EmploymentDetailsScreen()),
+                ),
+                child: const Text('Employment Details'),
+              ),
+            ],
+          ),
+        ),
+      );
   }
 }
