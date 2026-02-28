@@ -23,7 +23,7 @@ class LoanRootScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                final emi = EmiCalculator.calculate(250000.50, 12, 10.5);
+                final emi = EmiCalculator.calculate(250000.50, 12, 22.0);
                 print('EMI: $emi');
               },
               child: const Text('Calculate EMI'),
