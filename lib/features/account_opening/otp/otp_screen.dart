@@ -10,7 +10,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   Timer? _timer;
-  int _countdown = 60;
+  int _countdown = 120;
 
   @override
   void initState() {
