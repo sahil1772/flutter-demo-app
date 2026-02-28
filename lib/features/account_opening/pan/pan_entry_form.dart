@@ -11,8 +11,17 @@ class _PanEntryFormState extends State<PanEntryForm> {
   final panController = TextEditingController();
 
   void _submit() {
+    final panValue = panController.text.trim();
+    if (panValue.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('PAN cannot be empty.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
     // BUG TKT-002: Missing null check
-    final panValue = panController.text;
     print('PAN submitted: $panValue');
   }
 
