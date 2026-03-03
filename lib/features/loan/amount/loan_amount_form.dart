@@ -15,7 +15,15 @@ class _LoanAmountFormState extends State<LoanAmountForm> {
     if (value == null || value.isEmpty) {
       return 'Please enter amount';
     }
-    // BUG TKT-004: Missing range validation
+    final double? amount = double.tryParse(value);
+    if (amount == null) {
+      return 'Please enter a valid number';
+    }
+    const double minAmount = 100000;
+    const double maxAmount = 10000000;
+    if (amount < minAmount || amount > maxAmount) {
+      return 'The loan amount should be minimum $minAmount and maximum $maxAmount';
+    }
     return null;
   }
 
