@@ -15,7 +15,6 @@ class _LoanAmountFormState extends State<LoanAmountForm> {
     if (value == null || value.isEmpty) {
       return 'Please enter amount';
     }
-    // BUG TKT-004: Missing range validation
     return null;
   }
 

@@ -11,7 +11,6 @@ class _PanEntryFormState extends State<PanEntryForm> {
   final panController = TextEditingController();
 
   void _submit() {
-    // BUG TKT-002: Missing null check
     final panValue = panController.text;
     print('PAN submitted: $panValue');
   }

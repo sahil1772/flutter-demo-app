@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'upload/document_type_mapper.dart';
 import 'selfie/camera_preview.dart';
+import 'document_upload_screen.dart';
 
-class KycRootScreen extends StatelessWidget {
+class KycRootScreen extends StatefulWidget {
   const KycRootScreen({super.key});
 
   @override
+  State<KycRootScreen> createState() => _KycRootScreenState();
+}
+
+class _KycRootScreenState extends State<KycRootScreen> {
+  bool _shouldNavigateToUpload = false;
+
+  @override
   Widget build(BuildContext context) {
+    if (_shouldNavigateToUpload) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const DocumentUploadScreen()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('KYC Verification')),
       body: Center(
@@ -15,11 +30,18 @@ class KycRootScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // Document upload logic
-                final docType = DocumentTypeMapper.toApiValue('Aadhaar Front');
-                print('Document type: $docType');
+                setState(() => _shouldNavigateToUpload = true);
               },
               child: const Text('Upload Document'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final docType = DocumentTypeMapper.toApiValue('Aadhaar Front');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Document type: $docType')),
+                );
+              },
+              child: const Text('Check Document Type'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.push(
