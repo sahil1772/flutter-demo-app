@@ -19,6 +19,8 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void initState() {
     super.initState();
+    _countdown = widget.otpExpirySeconds; // Correctly initialize countdown with actual expiry
+    _otpSentTime = DateTime.now(); // Record the time the OTP was 'sent' (screen loaded)
     _startTimer();
   }
 
