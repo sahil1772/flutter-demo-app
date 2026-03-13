@@ -12,7 +12,8 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final _otpController = TextEditingController();
   Timer? _timer;
-  int _countdown = 60;
+  late int _countdown; // Initialize based on widget.otpExpirySeconds
+  late DateTime _otpSentTime; // To track actual time since OTP was sent
   bool _isVerifying = false;
 
   @override
