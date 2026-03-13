@@ -98,6 +98,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void dispose() {
     _otpController.dispose();
+    _timer?.cancel(); // Cancel timer to prevent memory leaks
     super.dispose();
   }
 
