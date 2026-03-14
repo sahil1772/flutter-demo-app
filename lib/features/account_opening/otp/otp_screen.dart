@@ -12,12 +12,15 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final _otpController = TextEditingController();
   Timer? _timer;
-  int _countdown = 60;
+  late int _countdown; // Initialize based on widget.otpExpirySeconds
+  late DateTime _otpSentTime; // To track actual time since OTP was sent
   bool _isVerifying = false;
 
   @override
   void initState() {
     super.initState();
+    _countdown = widget.otpExpirySeconds; // Correctly initialize countdown with actual expiry
+    _otpSentTime = DateTime.now(); // Record the time the OTP was 'sent' (screen loaded)
     _startTimer();
   }
 
@@ -33,13 +36,69 @@ class _OtpScreenState extends State<OtpScreen> {
 
   Future<void> _verifyOtp() async {
     setState(() => _isVerifying = true);
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() => _isVerifying = false);
+
+    if (_otpController.text.isEmpty || _otpController.text.length != 6) {
+      _showError('Please enter a valid 6-digit OTP.');
+      setState(() => _isVerifying = false);
+      return;
+    }
+
+    // Client-side pre-submission check: prevent sending if UI timer expired
+    if (_countdown <= 0) {
+      _showError('OTP has expired on the client-side. Please request a new one.');
+      setState(() => _isVerifying = false);
+      return;
+    }
+
+    final OtpVerificationService service = OtpVerificationService();
+    final String otp = _otpController.text;
+
+    // Call actual service, passing intended expiry to the backend
+    final bool isServerAccepted = await service.verifyOtp(
+      otp,
+      'some_user_id', // Placeholder for user/session identifier
+      widget.otpExpirySeconds,
+    );
+
+    setState(() {
+      _isVerifying = false;
+      if (isServerAccepted) {
+        // Client-side post-submission re-validation:
+        // Even if the server accepted it, check if it truly should have expired
+        // based on the intended expiry, overriding lenient server behavior.
+        final Duration elapsedTime = DateTime.now().difference(_otpSentTime);
+        final bool trulyExpiredOnClient = elapsedTime.inSeconds > widget.otpExpirySeconds;
+
+        if (trulyExpiredOnClient) {
+          _showError('OTP verification failed: OTP expired. Server accepted it, but it was past its intended validity period.');
+          // Optionally log this server discrepancy for further investigation.
+        } else {
+          _showSuccess('OTP verified successfully!');
+          // Navigate or perform next action
+        }
+      } else {
+        _showError('OTP verification failed. Please check your OTP and try again.');
+      }
+    });
+  }
+
+  // Helper methods for showing messages
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
+  }
+
+  void _showSuccess(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.green),
+    );
   }
 
   @override
   void dispose() {
     _otpController.dispose();
+    _timer?.cancel(); // Cancel timer to prevent memory leaks
     super.dispose();
   }
 
