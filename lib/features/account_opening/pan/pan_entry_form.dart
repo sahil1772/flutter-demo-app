@@ -12,6 +12,12 @@ class _PanEntryFormState extends State<PanEntryForm> {
 
   void _submit() {
     final panValue = panController.text;
+    if (panValue.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('PAN cannot be empty')),
+      );
+      return;
+    }
     print('PAN submitted: $panValue');
   }
 
